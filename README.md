@@ -1,4 +1,4 @@
-# WARNING Don't try to view OWLD.txt
+# WARNING Don't try to view OSPD.txt
 
 # scrabble-quiz-sockets
 
