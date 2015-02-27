@@ -1,0 +1,12 @@
+{
+  "name": "scrabble-sockets",
+  "version": "0.0.1",
+  "description": "Creating a scrabble game with sockets",
+  "main": "server.js",
+  "author": "Andy Novocin",
+  "dependencies": {
+    "express": "~3.2.4",
+    "socket.io": "~0.9.14",
+    "sqlite3": "~2.2.3"
+  }
+}
