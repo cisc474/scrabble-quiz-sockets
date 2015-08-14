@@ -45,16 +45,26 @@ values['X']=8
 values['Q']=10
 values['Z']=10
 
-info = [[y, sum(map(lambda x : values[x], sorted(y))), len(y), '@@'.join(racks[y])] for y in rcks]
+info = [[y, sum(map(lambda x : values[x], sorted(y))), len(y), '@@'.join(racks[y])] + [y.count(chr(i)) for i in range(65, 65 + 26)] for y in rcks]
 
-template = "insert or replace into racks (rack, weight, length, words) values (?, ?, ?, ?)"
+letcols = ", ".join(map(lambda x: chr(x) + "_cnt", range(65, 65+26)))
+qcols = ", ".join(["?" for i in range(26)])
+letdefcols = ", ".join(map(lambda x: chr(x) + "_cnt integer", range(65, 65+26)))
 
-con = sqlite3.connect('scrabble.sqlite')
+createtab = "create table if not exists racks (rack text, weight integer, length integer, words text, %s)" % letdefcols
+template = "insert or replace into racks (rack, weight, length, words, %s) values (?, ?, ?, ?, %s)" % (letcols, qcols)
 
+con = sqlite3.connect('wordlist.sqlite')
+print createtab
+con.execute(createtab)
+con.commit()
 #I ran this command directly:
 #create table racks (rack text, weight integer, length integer, words text);
 
 cur = con.cursor()
+i = 0
 for data in info:
+    if i % 1000 == 0:
+        print data
     cur.execute(template, data)
     con.commit()
